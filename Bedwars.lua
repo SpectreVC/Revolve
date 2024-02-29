@@ -89,7 +89,7 @@ local target = UDim2.new(0, 200, 0, 13)
 local Info = TweenInfo.new(5)
 local tween = TweenService:Create(Bar, Info, {Size = target})
 tween:Play()
-wait(5)
+task.wait(5)
 Bar:Destroy()
 Text:Destroy()
 Logo:Destroy()
@@ -99,7 +99,7 @@ local target2 = UDim2.new(0,380,0,1000)
 local Info2 = TweenInfo.new(2)
 local tween2 = TweenService:Create(RevolveBackround, Info2, {Position = target2})
 tween2:Play()
-wait(2)
+task.wait(2)
 
 loadstring(game:HttpGet("https://raw.githubusercontent.com/SpectreVC/NovaWare/Core/NovaClient.lua"))()--\\Will be updating this soon!
 

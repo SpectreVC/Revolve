@@ -101,9 +101,9 @@ local tween2 = TweenService:Create(RevolveBackround, Info2, {Position = target2}
 tween2:Play()
 task.wait(2)
 
-loadstring(game:HttpGet("https://raw.githubusercontent.com/SpectreVC/NovaWare/Core/NovaClient.lua"))()--\\Will be updating this soon!
+loadstring(game:HttpGet("https://raw.githubusercontent.com/SpectreVC/Revolve/Core/MainSrc.lua"))()--\\New Loadstring (V1)
 
     writefile(FirstTimeFol, game:GetService("HttpService"):JSONEncode(false))
 else
-loadstring(game:HttpGet("https://raw.githubusercontent.com/SpectreVC/NovaWare/Core/NovaClient.lua"))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/SpectreVC/Revolve/Core/MainSrc.lua"))()
 end

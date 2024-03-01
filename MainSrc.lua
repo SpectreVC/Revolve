@@ -48,6 +48,7 @@ function CreateToggle(Params)
     Toggle.Size = UDim2.new(0, 150, 0, 20)
     Toggle.BorderSizePixel = 0
     Toggle.BackgroundColor3 = Params.Color
+Toggle.BackgroundTransparency = 1
     Toggle.Text = ""
     Toggle.Parent = Container
 

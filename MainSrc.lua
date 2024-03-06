@@ -142,7 +142,6 @@ Toggle.BackgroundTransparency = 1
 end
 
 
-
 end
 
 local Revolve2 = Instance.new("ScreenGui")

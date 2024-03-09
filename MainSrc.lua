@@ -1,5 +1,4 @@
 
-
 repeat task.wait() until game:IsLoaded()
 
 local Revolve = Instance.new("ScreenGui")
@@ -26,7 +25,7 @@ local function SetCorner(Parent, Size)
 end
 
 
-  local darkBlueViolet = Color3.fromRGB(75, 0, 130)  
+local darkBlueViolet = Color3.fromRGB(75, 0, 130)  
 local lightPurple = Color3.fromRGB(148, 0, 211) 
 
 game:GetService("Players").LocalPlayer.PlayerGui:WaitForChild("hotbar")["1"]:WaitForChild("HotbarHealthbarContainer").HealthbarProgressWrapper["1"].BackgroundColor3 = Color3.fromRGB(75, 0, 130)  
@@ -243,7 +242,7 @@ local function Replace()
                 end
             end)
             if not success then
-                SendNotification(6, "Cannot Replace TargetHud\n".. errorMessage)
+                print(errorMessage)
             end
         end
     end
@@ -390,7 +389,7 @@ end
 local function CreateScreenToggle()
 local Button = Instance.new("TextButton")
 Button.Size = UDim2.new(0,60,0,50)
-Button.Position = UDim2.new(0,10,0,10)
+Button.Position = UDim2.new(0,1000,0,0)
 Button.Text = ""
 Button.BackgroundColor3 = Color3.new(0.1,0.1,0.1)
 Button.BorderSizePixel = 0
@@ -410,7 +409,7 @@ Logo.Parent = Button
 local IsVisible = false
 Button.MouseButton1Click:Connect(function()
 IsVisible = not IsVisible
-Revolve.Enabled = IsVisible 
+Revolve.Enabled = IsVisible
 end)
 end
 
@@ -686,7 +685,7 @@ local Speed = CreateToggle({
     SpeedEnabled = value
     while SpeedEnabled and Hum do
     Hum.WalkSpeed = 23
-	task.wait(0.5)is 		
+    task.wait(1)
     end
     end
 })
@@ -779,7 +778,7 @@ local Utlity = CreateContainer({
   Color = Color2,
   Size = UDim2.new(0, 150, 0, 120),
   Position = UDim2.new(0,300,0,30),
-  Text = "Utility"
+  Text = "Utlity"
 })
 
 local Enabled6 = false

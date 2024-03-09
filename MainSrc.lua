@@ -1,8 +1,4 @@
-for _, Hash in ipairs(game:GetDescendants()) do
-if Hash.Name == "Revolve" and Hash:IsA("ScreenGui") then
-Hash:Destroy()
-end
-end
+
 
 repeat task.wait() until game:IsLoaded()
 

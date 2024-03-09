@@ -410,11 +410,7 @@ Logo.Parent = Button
 local IsVisible = false
 Button.MouseButton1Click:Connect(function()
 IsVisible = not IsVisible
-for _, Val in ipairs(game:GetDescendants()) do
-if Val.Name == "Revolve" and Val:IsA("ScreenGui") then
-Val.Enabled = IsVisible
-end
-end
+Revolve.Enabled = IsVisible 
 end)
 end
 
@@ -782,7 +778,7 @@ local Utlity = CreateContainer({
   Color = Color2,
   Size = UDim2.new(0, 150, 0, 120),
   Position = UDim2.new(0,300,0,30),
-  Text = "Utlity"
+  Text = "Utility"
 })
 
 local Enabled6 = false

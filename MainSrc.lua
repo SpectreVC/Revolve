@@ -1092,6 +1092,6 @@ end)
 
 
 while true do
-task.wait(5)
+task.wait(2)
 Replace()
 end

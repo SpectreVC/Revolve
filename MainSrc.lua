@@ -389,7 +389,7 @@ end
 local function CreateScreenToggle()
 local Button = Instance.new("TextButton")
 Button.Size = UDim2.new(0,60,0,50)
-Button.Position = UDim2.new(0,10,0,10)
+Button.Position = UDim2.new(0,100,0,10)
 Button.Text = ""
 Button.BackgroundColor3 = Color3.new(0.1,0.1,0.1)
 Button.BorderSizePixel = 0

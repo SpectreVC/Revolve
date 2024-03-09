@@ -4,6 +4,8 @@ Hash:Destroy()
 end
 end
 
+repeat task.wait() until game:IsLoaded()
+
 local Revolve = Instance.new("ScreenGui")
 Revolve.Name = "Revolve"
 Revolve.Enabled = false
@@ -11,6 +13,249 @@ Revolve.Parent = game:GetService('CoreGui')
 local Color1 = Color3.fromRGB(138, 43, 226)
 local Color2 = Color3.fromRGB(205, 98, 152) 
 local Yellow = Color3.fromRGB(255, 215, 0)
+local TWS = game:GetService("TweenService")
+local Players = game:GetService("Players")
+
+local Revolve2 = Instance.new("ScreenGui")
+Revolve2.Name = "RevolveSecondary"
+Revolve2.Parent = game:GetService("CoreGui")
+
+
+
+
+local function SetCorner(Parent, Size)
+    local Corner = Instance.new("UICorner")
+    Corner.CornerRadius = UDim.new(0, Size)
+    Corner.Parent = Parent
+end
+
+
+  local darkBlueViolet = Color3.fromRGB(75, 0, 130)  
+local lightPurple = Color3.fromRGB(148, 0, 211) 
+
+game:GetService("Players").LocalPlayer.PlayerGui:WaitForChild("hotbar")["1"]:WaitForChild("HotbarHealthbarContainer").HealthbarProgressWrapper["1"].BackgroundColor3 = Color3.fromRGB(75, 0, 130)  
+
+
+local PlayerGui = game:GetService("Players").LocalPlayer.PlayerGui
+for _, v in ipairs(PlayerGui:GetDescendants()) do
+    if v.Name == "hotbar" then
+        for _, v1 in ipairs(v:GetDescendants()) do
+            if v1.Name == "1" then
+                for _, v2 in ipairs(v1:GetDescendants()) do
+                    if v2.Name:lower() == "itemshotbar" then
+                        for _, v3 in ipairs(v2:GetDescendants()) do
+                            if v3:IsA("ImageButton") then
+                                SetCorner(v3, 9)
+                            end
+                            if v3:IsA("Frame") then
+                                v3.BackgroundTransparency = 0.4
+                                SetCorner(v3, 9)
+                                v3.BorderSizePixel = 0
+                                
+                                local gradient = Instance.new("UIGradient")
+                                gradient.Rotation = 0
+                                gradient.Color = ColorSequence.new {
+                                    ColorSequenceKeypoint.new(0, darkBlueViolet),
+                                    ColorSequenceKeypoint.new(1, lightPurple)
+                                }
+                                gradient.Parent = v3
+                            end
+                        end
+                    end
+                end
+            end
+        end
+    end
+end
+
+
+
+local function CreateCustomNotification(Params)
+local NotificationBackground = Instance.new("Frame")
+NotificationBackground.Size = UDim2.new(0, 400, 0, 110)
+NotificationBackground.Position = UDim2.new(0, 690, 0, 500)
+NotificationBackground.BackgroundColor3 = Color3.new(0.06, 0.06, 0.06)
+NotificationBackground.BackgroundTransparency = 0.2
+NotificationBackground.BorderSizePixel = 0
+NotificationBackground.Parent = Revolve2
+
+
+local Info1 = TweenInfo.new(1)
+local Target1 = UDim2.new(0,690,0,220)
+local Tween = TWS:Create(NotificationBackground, Info1, {Position = Target1})
+Tween:Play()
+
+
+local Corner = Instance.new("UICorner")
+Corner.CornerRadius = UDim.new(0, 6)
+Corner.Parent = NotificationBackground
+
+local gradient = Instance.new("UIGradient")
+    gradient.Color = ColorSequence.new{
+        ColorSequenceKeypoint.new(0, Color3.fromRGB(220, 20, 60)),
+        ColorSequenceKeypoint.new(1, Color3.fromRGB(138, 43, 226))
+    }
+    gradient.Parent = NotificationBackground
+
+
+local Tittle = Instance.new("TextLabel")
+Tittle.Size = UDim2.new(0, 10, 0, 10)
+Tittle.BackgroundTransparency = 1
+Tittle.Position = UDim2.new(0,30,0,10)
+Tittle.Text = "Revolve"
+Tittle.Font = Enum.Font.SourceSansBold 
+Tittle.TextColor3 = Color3.new(1,1,1)
+Tittle.TextSize = 18
+Tittle.Parent = NotificationBackground
+
+local Line = Instance.new("Frame")
+Line.Size = UDim2.new(0, 400, 0, 3)
+Line.Position = UDim2.new(0,0,0,106)
+Line.BackgroundColor3 = Color3.new(1,1,1)
+Line.BorderSizePixel = 0
+Line.Parent = NotificationBackground
+
+local content = Instance.new("TextLabel")
+content.Size = UDim2.new(0,10,0,10)
+content.Position= UDim2.new(0,140,0,50)
+content.BackgroundTransparency = 1
+content.Text = Params.Content
+content.TextColor3 = Color3.new(1,1,1)
+content.Font = Enum.Font.SourceSansBold 
+content.TextSize = 20
+content.Parent = NotificationBackground
+
+local Timer = Params.Time
+
+local Info3 = TweenInfo.new(Timer)
+local Target3 = UDim2.new(0, 0, 0, 3)
+local Tween3 = TWS:Create(Line, Info3, {Size = Target3})
+Tween3:Play()
+wait(Timer)
+local Info2 = TweenInfo.new(1)
+local Target2 = UDim2.new(0,1300,0,220)
+local Tween2 = TWS:Create(NotificationBackground, Info2, {Position = Target2})
+Tween2:Play()
+task.wait(3)
+NotificationBackground:Destroy()
+return NotificationBackground
+end
+
+local function SendNotification(Time, Content)
+CreateCustomNotification({
+  Time = Time,
+  Content = Content
+})
+end
+
+
+local range = 18
+local Table = {}
+local function CreateTargetHud(player, index)
+    local existingHUD = Table[player]
+    if existingHUD then
+        existingHUD:Destroy()
+    end
+    
+    local HudBackround = Instance.new("Frame")
+    HudBackround.Size = UDim2.new(0, 250, 0, 80)
+    HudBackround.Position = UDim2.new(0, 450, 0, 300 + (index * 85)) 
+    HudBackround.BackgroundColor3 = Color3.new(0.1, 0.1, 0.1)
+    HudBackround.BackgroundTransparency = 0.2
+    HudBackround.Visible = true
+    HudBackround.BorderSizePixel = 0
+    HudBackround.Parent = Revolve2
+
+    local gradient = Instance.new("UIGradient")
+    gradient.Color = ColorSequence.new{
+        ColorSequenceKeypoint.new(0, Color3.fromRGB(123, 104, 238)),
+        ColorSequenceKeypoint.new(1, Color3.fromRGB(0, 191, 255))
+    }
+    gradient.Parent = HudBackround
+
+    local Corner = Instance.new("UICorner")
+    Corner.CornerRadius = UDim.new(0, 7)
+    Corner.Parent = HudBackround
+
+    local Face = Instance.new("ImageLabel")
+    Face.Size = UDim2.new(0, 60, 0, 60)
+    Face.Position = UDim2.new(0,40,0,35) 
+    Face.AnchorPoint = Vector2.new(0.5, 0.5)
+    Face.BackgroundTransparency = 1
+    Face.Image = "https://www.roblox.com/headshot-thumbnail/image?userId=" .. player.UserId .. "&width=420&height=420&format=png"
+    Face.Parent = HudBackround
+
+    local HealthBarGhost = Instance.new("Frame")
+    HealthBarGhost.Size = UDim2.new(0, 160, 0, 6)
+    HealthBarGhost.Position = UDim2.new(0,80,0,55)
+    HealthBarGhost.BackgroundTransparency = 1
+    HealthBarGhost.Parent = HudBackround
+
+    local Corner2 = Instance.new("UICorner")
+    Corner2.CornerRadius = UDim.new(0, 7)
+    Corner2.Parent = HealthBarGhost
+
+    local Stroke = Instance.new("UIStroke")
+    Stroke.Thickness = 2
+    Stroke.Color = Color3.new(1,1,1)
+    Stroke.Parent = HealthBarGhost
+
+    local HealthBar = Instance.new("Frame")
+    HealthBar.Size = UDim2.new(0, 160, 0, 6) 
+    HealthBar.Position = UDim2.new(0, 80, 0, 55)
+    HealthBar.BackgroundColor3 = Color3.fromRGB(173, 255, 47)
+    HealthBar.BorderSizePixel = 0
+    HealthBar.BackgroundTransparency = 0
+    HealthBar.Parent = HudBackround
+
+    local Name = Instance.new("TextLabel")
+    Name.Size = UDim2.new(0, 10, 0, 10)
+    Name.Position = UDim2.new(0, 110, 0, 40)
+    Name.BackgroundTransparency = 1
+    Name.Text = player.Name
+    Name.TextColor3 = Color3.new(1,1,1)
+    Name.TextSize = 15
+    Name.Font = Enum.Font.SourceSansBold 
+    Name.Parent = HudBackround
+
+    Table[player] = HudBackround
+    player.Character.Humanoid:GetPropertyChangedSignal("Health"):Connect(function()
+        local healthPercentage = player.Character.Humanoid.Health / player.Character.Humanoid.MaxHealth
+        HealthBar.Size = UDim2.new(healthPercentage, 0, 0, 6)
+    end)
+end
+
+local function DestroyTargetHud(player)
+    local existingHUD = Table[player]
+    if existingHUD then
+        existingHUD:Destroy()
+        Table[player] = nil
+    end
+end
+
+local function Replace()
+    local index = 0
+    for _, player in ipairs(Players:GetPlayers()) do
+        if player ~= Players.LocalPlayer then
+            local success, errorMessage = pcall(function()
+                local distance = (player.Character.HumanoidRootPart.Position - Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude
+                if distance <= range then
+                    CreateTargetHud(player, index)
+                    index = index + 1
+                else
+                    DestroyTargetHud(player)
+                end
+            end)
+            if not success then
+                SendNotification(6, "Cannot Replace TargetHud\n".. errorMessage)
+            end
+        end
+    end
+end
+
+
+
+
 
 
 local function CreateContainer(Params)
@@ -142,11 +387,9 @@ Toggle.BackgroundTransparency = 1
 end
 
 
+
 end
 
-local Revolve2 = Instance.new("ScreenGui")
-Revolve2.Name = "RevolveSecondary"
-Revolve2.Parent = game:GetService("CoreGui")
 
 local function CreateScreenToggle()
 local Button = Instance.new("TextButton")
@@ -186,6 +429,7 @@ local ScreenToggle = CreateScreenToggle()
 
 
 
+
 local Lplr = game.Players.LocalPlayer
 local Char = Lplr.Character 
 local Hum = Char:WaitForChild("Humanoid")
@@ -197,7 +441,6 @@ local CombatConstants = require(game:GetService("ReplicatedStorage").TS.combat["
 local BedwarsSwords = require(game:GetService("ReplicatedStorage").TS.games.bedwars["bedwars-swords"]).BedwarsMelees
 local ClientHandlerStore = require(Lplr.PlayerScripts.TS.ui.store).ClientStore
 local SwordController = KnitClient.Controllers.SwordController
-local TWS = game:GetService("TweenService")
 
 
 local function GetInventory(Player)
@@ -354,7 +597,7 @@ local Combat = CreateContainer({
   Text = "Combat"
 })
 
-local Enabled1 = false
+local KillauraEnabled = false
 local Killaura = CreateToggle({
     Color = Color1,
     Column = 0.2,
@@ -364,7 +607,7 @@ local Killaura = CreateToggle({
     SaveToFile = "Revolve/Saves/Settings.json", 
     LoadFromFile = "Revolve/Saves/Settings.json", 
     Callback = function(value)
-    Enabled1 = value
+    KillauraEnabled = value
     spawn(function()
     repeat
         task.wait()
@@ -378,13 +621,13 @@ local Killaura = CreateToggle({
 
                     if Sword then
                         spawn(function()
-                            if Enabled1 then
-                                Enabled1 = false
+                            if KillauraEnabled then
+                                KillauraEnabled = false
                                 for _, animationStep in pairs(Animations[CurrentAnimation["Value"]]) do
                                     game:GetService("TweenService"):Create(Camera.Viewmodel.RightHand.RightWrist, TweenInfo.new(animationStep.Time), {C0 = OrigC0 * animationStep.CFrame}):Play()
                                     task.wait(animationStep.Time - 0.01)
                                 end
-                                Enabled1 = true
+                                KillauraEnabled = true
                             end
                         end)
 
@@ -413,9 +656,10 @@ end)
 })
 
 
+
 local maxval = 25
 local minval = 14
-local Enabled2 = false
+local ReachEnabled = false
 local Reach = CreateToggle({
     Color = Color1,
     Column = 0.21,
@@ -425,8 +669,8 @@ local Reach = CreateToggle({
     SaveToFile = "Revolve/Saves/Settings.json", 
     LoadFromFile = "Revolve/Saves/Settings.json", 
     Callback = function(value)
-    Enabled2 = value
-    if Enabled2 then
+    ReachEnabled = value
+    if ReachEnabled then
    
     CombatConstants.RAYCAST_SWORD_CHARACTER_DISTANCE = maxval
     else
@@ -437,7 +681,7 @@ local Reach = CreateToggle({
     end
 })
 
-local Enabled3 = false
+local SpeedEnabled = false
 local Speed = CreateToggle({
     Color = Color1,
     Column = 0.22,
@@ -447,16 +691,14 @@ local Speed = CreateToggle({
     SaveToFile = "Revolve/Saves/Settings.json", 
     LoadFromFile = "Revolve/Saves/Setting s.json", 
     Callback = function(value)
-    Enabled3 = value
-    if Hum and Enabled3 then 
-    repeat 
-    Hum.WalkSpeed = 50
-    until not game
+    SpeedEnabled = value
+    while SpeedEnabled and Hum do
+    Hum.WalkSpeed = 23
     end
     end
 })
 local SprintController = KnitClient.Controllers.SprintController
-local Enabled4 = false
+local SprintEnabled = false
 local Sprint = CreateToggle({
     Color = Color1,
     Column = 0.23,
@@ -466,8 +708,8 @@ local Sprint = CreateToggle({
     SaveToFile = "Revolve/Saves/Settings.json", 
     LoadFromFile = "Revolve/Saves/Settings.json", 
     Callback = function(value)
-    Enabled4 = value
-    if Enabled4 then
+    SprintEnabled = value
+    if SprintEnabled then
     RS.Heartbeat:Connect(function()
 	SprintController:startSprinting()
 end)
@@ -475,7 +717,7 @@ end)
     end
 })
 
-local Enabled5 = false
+local StrafeEnabled = false
 local Range = 10
 local Speed = 8
 local Move = 5
@@ -491,16 +733,16 @@ local Reach = CreateToggle({
     SaveToFile = "Revolve/Saves/Settings.json", 
     LoadFromFile = "Revolve/Saves/Settings.json", 
     Callback = function(value)
-    Enabled5 = value
+    StrafeEnabled = value
 
 game:GetService("UserInputService").InputBegan:Connect(function(input, gameProcessedEvent)
     if not gameProcessedEvent and input.KeyCode == Enum.KeyCode.E then
-        Enabled5 = not Enabled5
+        StrafeEnabled = not StrafeEnabled
     end
 end)
 
 game:GetService("RunService").RenderStepped:Connect(function(deltaTime)
-    if Enabled5 then
+    if StrafeEnabled then
         for _, targetPlayer in pairs(game.Players:GetPlayers()) do
             if targetPlayer ~= Lplr and Lplr.Team ~= targetPlayer.Team then
                 local distance = (Lplr.Character and Lplr.Character:FindFirstChild("HumanoidRootPart") and targetPlayer.Character and targetPlayer.Character:FindFirstChild("HumanoidRootPart"))
@@ -524,12 +766,12 @@ end)
 
 local timer = 0
 while task.wait(0.1) do
-    if Enabled5 then
+    if StrafeEnabled then
         timer = timer + 0.1
         if timer >= Follos then
-            Enabled5 = false
+            StrafeEnabled = false
             task.wait(Stop)
-            Enabled5 = true
+            StrafeEnabled = true
             timer = 0
         end
     end
@@ -568,14 +810,14 @@ local NoFall = CreateToggle({
 
 local HKB = 100
 local VKB = 100
-local Enabled7 = false
+local AntiKnockBackEnabled = false
 local AntiKn = CreateToggle({
 Text = "AntiKn",
     Column = 0.21,
     Parent = Combat,
     Color = Color2,
     Callback = function(value)
-    Enabled7 = value
+    AntiKnockBackEnabled = value
  
 local function GetKnTable()
     return debug.getupvalue(require(game:GetService("ReplicatedStorage").TS.damage["knockback-util"]).KnockbackUtil.calculateKnockbackVelocity, 1)
@@ -588,7 +830,7 @@ local function KnPower(direction, strength)
         knockbackTable["kb" .. direction .. "Strength"] = strength
     end
 end
-    if Enabled7 then
+    if AntiKnockBackEnabled then
         KnPower("Direction", HKB)
         KnPower("Upward", VKB)
     else
@@ -602,7 +844,7 @@ end
 
 
 
-local Enabled8 = false
+local InfJumpEnabled = false
 local InfJump = CreateToggle({
     Color = Color1,
     Column = 0.22,
@@ -613,10 +855,10 @@ local InfJump = CreateToggle({
     SaveToFile = "Revolve/Saves/Settings.json", 
     LoadFromFile = "Revolve/Saves/Settings.json", 
     Callback = function(value)
-    Enabled8 = value
+    InfJumpEnabled = value
  
     game:GetService("UserInputService").JumpRequest:connect(function()
-	if Enabled8 then 	game:GetService"Players".LocalPlayer.Character:FindFirstChildOfClass'Humanoid':ChangeState("Jumping")
+	if InfJumpEnabled then 	game:GetService"Players".LocalPlayer.Character:FindFirstChildOfClass'Humanoid':ChangeState("Jumping")
 	end
 end)
 
@@ -625,7 +867,7 @@ end)
 })
 local sky = Instance.new("Sky")
 sky.Name = "RevolveSky"
-local Enabled9 = false
+local SkyBoxEnabled = false
 local SkyBox = CreateToggle({
     Color = Color2,
     Column = 0.23,
@@ -635,8 +877,8 @@ local SkyBox = CreateToggle({
     SaveToFile = "Revolve/Saves/Settings.json", 
     LoadFromFile = "Revolve/Saves/Settings.json", 
     Callback = function(value)
-    Enabled9 = value
-    if Enabled9 then
+    SkyBoxEnabled = value
+    if SkyBoxEnabled then
     local Images = {
     "rbxassetid://14993957229", 
     "rbxassetid://14993958854",
@@ -663,18 +905,17 @@ end
   
 local World = CreateContainer({
   Color = Yellow,
-  Size = UDim2.new(0, 150, 0, 100),
+  Size = UDim2.new(0, 150, 0, 120),
   Position = UDim2.new(0,500,0,30),
   Text = "World"
 })
-
 
 local Enabled10 = false
 local Antivoid = CreateToggle({
   Text = "AntiVoid",
   Column = 0.2,
   Color = Yellow,
-  Parent = WorldTab,
+  Parent = Combat,
   Callback = function(value)
   
     if value then
@@ -698,6 +939,8 @@ local Antivoid = CreateToggle({
   SaveToFile = "Revolve/Saves/Settings.json",
   LoadFromFile = "Revolve/Saves/Settings.json"
 })
+
+
 local DeathDelay = 3.85
 local BedTp = CreateToggle({
     Text = "BedTp",
@@ -711,7 +954,6 @@ TpToBed()
     end
 })
 
-
 local PlayerTp = CreateToggle({
     Text = "PlayerTp",
     Column = 0.22,
@@ -724,3 +966,140 @@ TpToPlayer()
     end
 })
 
+
+
+getgenv().LuckyBlock = false
+getgenv().Ore = false
+getgenv().Bed = true
+local NukerEnabled = false
+local Nuker = CreateToggle({
+    Color = Yellow,
+    Column = 0.23,
+    Parent = combat,
+    Text = "Nuker",
+    Flag = "Nuker", 
+    SaveToFile = "Revolve/Saves/Settings.json", 
+    LoadFromFile = "Revolve/Saves/Settings.json", 
+    Callback = function(value)
+NukerEnabled = value
+function HitBlock(Pos1, Pos2, Pos3)
+local args = {
+    [1] = {
+        ["blockRef"] = {
+            ["blockPosition"] = Pos1
+        },
+        ["hitPosition"] = Pos2,
+        ["hitNormal"] = Pos3 or Vector3.new(0,0,0)
+    }
+}
+
+game:GetService("ReplicatedStorage").rbxts_include.node_modules:FindFirstChild("@easy-games"):FindFirstChild("block-engine").node_modules:FindFirstChild("@rbxts").net.out._NetManaged.DamageBlock:InvokeServer(unpack(args))
+end
+function GetBlock()
+    local nearestBlock = nil
+    local minDistance = math.huge
+
+    for _, v in pairs(game.Workspace:GetDescendants()) do
+        if v.Name:lower() == "iron_ore" then
+            local distance = (v.Position - Lplr.Character.HumanoidRootPart.Position).magnitude
+            if distance < minDistance then
+                nearestBlock = v
+                minDistance = distance
+            end
+        end
+    end
+    if minDistance <= 30 and nearestBlock then
+        local sound = Instance.new("Sound")
+        sound.SoundId = "rbxassetid://11523495669"
+        sound.Parent = game.Workspace
+        sound.Volume = 0.7
+        sound:Play()
+    end
+
+    return nearestBlock
+end
+function GetBed()
+   local nearestBed = nil
+    local minDistance = math.huge
+
+    for _, v in pairs(game.Workspace:GetDescendants()) do
+        if v.Name:lower() == "bed" and v:FindFirstChild("Covers") and v:FindFirstChild("Covers").BrickColor ~= Lplr.Team.TeamColor then
+            local distance = (v.Position - Lplr.Character.HumanoidRootPart.Position).magnitude
+            if distance < minDistance then
+                nearestBed = v
+                minDistance = distance
+              end
+        end
+    end
+    if minDistance <= 30 and nearestBed then
+        local sound = Instance.new("Sound")
+        sound.SoundId = "rbxassetid://11523495669"
+        sound.Parent = game.Workspace
+        sound.Volume = 0.7
+        sound:Play()
+    end
+    return nearestBed
+
+end
+function GetLuckyBlock()
+local NearestLuckyBlock = nil
+    local minDistance = math.huge
+    for _, v in pairs(game.Workspace:GetDescendants()) do
+        if v.Name:lower() == "lucky_block" then
+            local distance = (v.Position - Lplr.Character.HumanoidRootPart.Position).magnitude
+            if distance < minDistance then
+                NearestLuckyBlock = v
+                minDistance = distance
+            end
+        end
+    end
+    if minDistance <= 30 and NearestLuckyBlock then
+        local sound = Instance.new("Sound")
+        sound.SoundId = "rbxassetid://11523495669"
+        sound.Parent = game.Workspace
+        sound.Volume = 0.7
+        sound:Play()
+    end
+    return NearestLuckyBlock
+end
+function ReturnPositions(Pos)
+local X = math.round(Pos.x/3)
+local Y = math.round(Pos.y/3)
+local Z = math.round(Pos.z/3)
+return Vector3.new(X, Y, Z)
+end
+spawn(function()
+while Ore and NukerEnabled do
+local block = GetBlock()
+local Hash = Lplr.Character.HumanoidRootPart.Position 
+HitBlock(ReturnPositions(block.Position), ReturnPositions(Hash), ReturnPositions(block.Position))
+task.wait()
+end
+end)
+spawn(function()
+while Bed and NukerEnabled do
+local Hash2 = game.Players.LocalPlayer.Character.HumanoidRootPart.Position
+local Bed = GetBed()
+HitBlock(ReturnPositions(Bed.Position), ReturnPositions(Hash2))
+task.wait()
+end
+end)
+spawn(function()
+while LuckyBlock and NukerEnabled do
+local Hash3 = game.Players.LocalPlayer.Character.HumanoidRootPart.Position
+local LuckyBlock = GetLuckyBlock()
+HitBlock(ReturnPositions(LuckyBlock.Position), ReturnPositions(Hash3), ReturnPositions(LuckyBlock.Position))
+task.wait()
+end
+end)
+
+    end
+})
+
+
+
+
+while true do
+task.wait(5)
+Replace()
+end

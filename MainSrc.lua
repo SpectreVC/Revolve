@@ -686,6 +686,7 @@ local Speed = CreateToggle({
     SpeedEnabled = value
     while SpeedEnabled and Hum do
     Hum.WalkSpeed = 23
+	task.wait(0.5)is 		
     end
     end
 })

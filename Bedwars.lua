@@ -14,11 +14,7 @@ if FirstTime then
 local Sc = Instance.new("ScreenGui")
 Sc.Parent = game:GetService("CoreGui")
 
-for _, v in ipairs(game:GetDescendants()) do
-if v.Name == "Revolve" and v:IsA("ScreenGui") then
-v:Destroy()
-end
-end
+
 
 local Color = Color3.fromRGB(205, 98, 152) 
 
